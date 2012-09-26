@@ -168,6 +168,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\IOAuthWebSecurity.cs" />
+    <Compile Include="Models\IWebSecurity.cs" />
+    <Compile Include="Models\OAuthWebSecurityWrapper.cs" />
+    <Compile Include="Models\WebSecurityWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
