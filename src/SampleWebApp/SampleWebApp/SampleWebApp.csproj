@@ -167,10 +167,33 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201209262335293_Initial.cs" />
+    <Compile Include="Migrations\201209262335293_Initial.Designer.cs">
+      <DependentUpon>201209262335293_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201209262357212_ExtraOAuthData.cs" />
+    <Compile Include="Migrations\201209262357212_ExtraOAuthData.Designer.cs">
+      <DependentUpon>201209262357212_ExtraOAuthData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\ExtraDataExtensions.cs" />
+    <Compile Include="Models\ExtraDataHandlerFactory.cs" />
+    <Compile Include="Models\FacebookExtraData.cs" />
+    <Compile Include="Models\FacebookExtraDataHandler.cs" />
+    <Compile Include="Models\GoogleExtraData.cs" />
+    <Compile Include="Models\GoogleExtraDataHandler.cs" />
+    <Compile Include="Models\IExtraDataHandler.cs" />
     <Compile Include="Models\IOAuthWebSecurity.cs" />
     <Compile Include="Models\IWebSecurity.cs" />
+    <Compile Include="Models\Membership.cs" />
+    <Compile Include="Models\OAuthMembership.cs" />
     <Compile Include="Models\OAuthWebSecurityWrapper.cs" />
+    <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\TwitterExtraData.cs" />
+    <Compile Include="Models\TwitterExtraDataHandler.cs" />
+    <Compile Include="Models\UserProfile.cs" />
+    <Compile Include="Models\UsersContext.cs" />
     <Compile Include="Models\WebSecurityWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -291,6 +314,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201209262335293_Initial.resx">
+      <DependentUpon>201209262335293_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201209262357212_ExtraOAuthData.resx">
+      <DependentUpon>201209262357212_ExtraOAuthData.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

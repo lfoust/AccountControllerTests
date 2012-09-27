@@ -19,6 +19,7 @@ namespace SampleWebApp.Controllers
 	{
 		private IWebSecurity WebSecurity { get; set; }
 		private IOAuthWebSecurity OAuthWebSecurity { get; set; }
+		private UsersContext database = new UsersContext();
 
 		public AccountController()
 			: this(new WebSecurityWrapper(), new OAuthWebSecurityWrapper())
@@ -239,6 +240,8 @@ namespace SampleWebApp.Controllers
 
 			if (OAuthWebSecurity.Login(result.Provider, result.ProviderUserId, createPersistentCookie: false))
 			{
+				HandleExtraData(result);
+
 				return RedirectToLocal(returnUrl);
 			}
 
@@ -246,6 +249,9 @@ namespace SampleWebApp.Controllers
 			{
 				// If the current user is logged in add the new account
 				OAuthWebSecurity.CreateOrUpdateAccount(result.Provider, result.ProviderUserId, WebSecurity.CurrentUser.Identity.Name);
+
+				HandleExtraData(result);
+
 				return RedirectToLocal(returnUrl);
 			}
 			else
@@ -254,7 +260,25 @@ namespace SampleWebApp.Controllers
 				string loginData = OAuthWebSecurity.SerializeProviderUserId(result.Provider, result.ProviderUserId);
 				ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(result.Provider).DisplayName;
 				ViewBag.ReturnUrl = returnUrl;
+
+				HandleExtraData(result);
+
 				return View("ExternalLoginConfirmation", new RegisterExternalLoginModel { UserName = result.UserName, ExternalLoginData = loginData });
+			}
+		}
+
+		private void HandleExtraData(AuthenticationResult result)
+		{
+			var oauth =
+				database.OAuthMembership.Include("User").FirstOrDefault(
+					o => o.Provider == result.Provider && o.ProviderUserId == result.ProviderUserId);
+
+			var userProfile = database.UserProfiles.FirstOrDefault(u => u.UserId == oauth.User.UserId);
+
+			var extraDataHandler = ExtraDataHandlerFactory.FromProvider(result.Provider);
+			if (extraDataHandler != null)
+			{
+				extraDataHandler.Handle(database, userProfile, oauth, result.ExtraData);
 			}
 		}
 
